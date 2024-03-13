@@ -19,10 +19,7 @@ public class KafkaConsumerConfiguration {
 	@Bean
 	public ConsumerFactory<String, String> consumerFactory() {
 		Map<String, Object> props = new HashMap<>();
-//		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "grown-pig-12240-us1-kafka.upstash.io:9092");
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, "waterSupplier");
-		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
 		return new DefaultKafkaConsumerFactory<>(props);
 	}

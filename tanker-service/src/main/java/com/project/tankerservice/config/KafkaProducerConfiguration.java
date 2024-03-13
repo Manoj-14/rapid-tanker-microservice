@@ -17,8 +17,11 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfiguration {
 
-    @Value("https://grown-pig-12240-us1-kafka.upstash.io:9092")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootStrapServer;
+
+    @Value("${spring.kafka.properties.sasl.jaas.config}")
+    private String saslConfig;
     @Bean
     public ProducerFactory<String,?> producerFactory(){
         Map<String,Object> props = new HashMap<>();
@@ -27,7 +30,7 @@ public class KafkaProducerConfiguration {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         props.put("sasl.mechanism","SCRAM-SHA-256");
-        props.put("sasl.jaas.config","org.apache.kafka.common.security.scram.ScramLoginModule required username=\"Z3Jvd24tcGlnLTEyMjQwJPhQ31N9CZtdQ-7JBMHYxnGrpwFFyU6c5oOBx9hUp7Y\" password=\"ZTU5YjdjMTEtOGI0Yy00NDU1LTk1MWMtODAzNjM5MjM3NTY4\";");
+        props.put("sasl.jaas.config",saslConfig);
         props.put("security.protocol","SASL_SSL");
 
         return  new DefaultKafkaProducerFactory<>(props);
