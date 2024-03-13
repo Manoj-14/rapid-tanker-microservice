@@ -18,22 +18,26 @@ public class WaterSuppliers {
     @Embedded
     private Address Address;
 
+    private boolean hasTanker;
+
     public WaterSuppliers() {
     }
 
-    public WaterSuppliers(String name, String email, String owner, com.project.watersuppliersservice.model.Address address) {
-        this.name = name;
-        this.email = email;
-        this.owner = owner;
-        Address = address;
-    }
-
-    public WaterSuppliers(int id, String name, String email, String owner, com.project.watersuppliersservice.model.Address address) {
+    public WaterSuppliers(int id, String name, String email, String owner, com.project.watersuppliersservice.model.Address address, boolean hasTanker) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.owner = owner;
         Address = address;
+        this.hasTanker = hasTanker;
+    }
+
+    public boolean isHasTanker() {
+        return hasTanker;
+    }
+
+    public void setHasTanker(boolean hasTanker) {
+        this.hasTanker = hasTanker;
     }
 
     @Override

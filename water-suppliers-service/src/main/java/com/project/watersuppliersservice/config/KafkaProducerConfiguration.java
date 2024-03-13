@@ -14,32 +14,36 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Configuration
-public class KafkaConfiguration {
+@Configuration
+public class KafkaProducerConfiguration {
 
-    @Value("https://grown-pig-12240-us1-kafka.upstash.io:9092")
+    @Value("choice-monster-7889-us1-kafka.upstash.io:9092")
     private String bootStrapServer;
     @Bean
-    public ProducerFactory<String,String> producerFactory(){
+    public ProducerFactory<String,Map<String,Object>> producerFactory(){
         Map<String,Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootStrapServer);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         props.put("sasl.mechanism","SCRAM-SHA-256");
-        props.put("sasl.jaas.config","org.apache.kafka.common.security.scram.ScramLoginModule required username=\"Z3Jvd24tcGlnLTEyMjQwJPhQ31N9CZtdQ-7JBMHYxnGrpwFFyU6c5oOBx9hUp7Y\" password=\"ZTU5YjdjMTEtOGI0Yy00NDU1LTk1MWMtODAzNjM5MjM3NTY4\";");
+        props.put("sasl.jaas.config","org.apache.kafka.common.security.scram.ScramLoginModule required username=\"Y2hvaWNlLW1vbnN0ZXItNzg4OSQut_GI8OE86b5XmKGzd8VojbKsnIQ52_487cw\" password=\"MDQ3ZjM1MWYtOGIwZC00MTViLTkwZGUtNjQ3Mjk0NGU1NDZh\";");
         props.put("security.protocol","SASL_SSL");
 
         return  new DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean
-    public KafkaTemplate<String,String> kafkaTemplate(){
+    public KafkaTemplate<String,Map<String,Object>> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public NewTopic demoTopic(){
-        return TopicBuilder.name("demoTopic").partitions(6).replicas(3).build();
+    public NewTopic tankSupplier(){
+        return TopicBuilder.name("tanker-supplier").partitions(1).replicas(1).build();
+    }
+    @Bean
+    public NewTopic notification(){
+        return TopicBuilder.name("notification").partitions(1).replicas(1).build();
     }
 }

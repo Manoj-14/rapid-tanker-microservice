@@ -14,7 +14,6 @@ public class Address {
 
     private String zip;
 
-    private boolean hasTanker;
 
     public Address() {
     }
