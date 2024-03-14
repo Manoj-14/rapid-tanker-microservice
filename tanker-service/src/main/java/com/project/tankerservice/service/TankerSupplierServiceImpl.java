@@ -1,5 +1,6 @@
 package com.project.tankerservice.service;
 
+import com.project.tankerservice.exception.TankerSupplierNotFoundException;
 import com.project.tankerservice.model.Tanker;
 import com.project.tankerservice.model.TankerSupplier;
 import com.project.tankerservice.repository.TankerSupplierRepository;
@@ -24,6 +25,21 @@ public class TankerSupplierServiceImpl implements TankerSupplierService {
         }else{
             return tankerSupplierRepository.save(tankerSupplier);
         }
+    }
+
+    @Override
+    public TankerSupplier update(TankerSupplier tankerSupplier, String Email) throws DuplicateKeyException {
+        return null;
+    }
+
+    @Override
+    public void delete(String Email) throws TankerSupplierNotFoundException {
+
+    }
+
+    @Override
+    public TankerSupplier find(String Email) throws TankerSupplierNotFoundException {
+        return null;
     }
 
 }

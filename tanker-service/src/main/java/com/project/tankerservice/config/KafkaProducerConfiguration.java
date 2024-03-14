@@ -29,6 +29,7 @@ public class KafkaProducerConfiguration {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
+
         props.put("sasl.mechanism","SCRAM-SHA-256");
         props.put("sasl.jaas.config",saslConfig);
         props.put("security.protocol","SASL_SSL");
