@@ -4,6 +4,7 @@ const {
   sendSupplierRegisterSuccessfullMsg,
 } = require("./middleware/middleware");
 const { CustomKafka } = require("./config/Kafka");
+const { registerWithEureka } = require("./config/eureka-client");
 const app = express();
 
 client
@@ -18,6 +19,8 @@ client
     saslPassword = config.get("sasl.password");
     process.env.node_email = config.get("nodemailer.email");
     process.env.app_password = config.get("nodemailer.password");
+
+    registerWithEureka("notification-service", process.env.port);
 
     const kafka = new CustomKafka(
       broker,
