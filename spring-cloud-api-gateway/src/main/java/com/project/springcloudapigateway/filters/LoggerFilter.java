@@ -1,4 +1,4 @@
-package com.project.springcloudapigateway.config;
+package com.project.springcloudapigateway.filters;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
