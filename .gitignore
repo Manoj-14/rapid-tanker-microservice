@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+# Some files
+*.env
+gitUsername.txt
+gitPassword.txt
