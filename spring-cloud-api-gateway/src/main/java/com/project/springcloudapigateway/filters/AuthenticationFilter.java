@@ -35,7 +35,6 @@ public class AuthenticationFilter implements GatewayFilter {
             }
 
             final String token = this.getAuthHeader(request).substring(7);
-            System.out.println(token);
             if (jwtUtil.validateToken(token)) {
                 return this.onError(exchange, HttpStatus.FORBIDDEN);
             }
