@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  config-server:
+    image: manojmdocker14/rapid-tanker-config-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8888:8888"
+    networks:
+      - rapid-tanker-network
+    env_file:
+      - ./docker.env
+    healthcheck:
+      test: "exit 0"
+    secrets:
+      - GIT_USERNAME
+      - GIT_PASSWORD
+  
+  naming-server:
+    image: manojmdocker14/rapid-tanker-naming-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - rapid-tanker-network
+    healthcheck:
+      test: "exit 0"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    links:
+      - config-server
+    environment:
+      - HOST_NAME=config-server
+  
+  api-gateway:
+    image: manojmdocker14/rapid-tanker-api-gateway:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - rapid-tanker-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      naming-server:
+        condition: service_healthy
+    links:
+      - config-server
+      - naming-server
+    environment:
+      - HOST_NAME=config-server
+      - NAMING_SERVER=naming-server
+
+networks:
+  rapid-tanker-network:
+
+secrets:
+  GIT_USERNAME:
+    file: ./gitUsername.txt
+  GIT_PASSWORD:
+    file: ./gitPassword.txt
