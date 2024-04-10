@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"rapid-tanker-api-gateway"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"rapid-tanker-api-gateway"}]},"modified":true}'
+    autopilot.gke.io/warden-version: 2.7.52
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2024-03-21T08:48:52Z"
+  generation: 1
+  labels:
+    app: rapid-tanker-api-gateway
+  name: rapid-tanker-api-gateway
+  namespace: default
+  resourceVersion: "111300"
+  uid: d61ec9c2-e376-410c-91fe-7e7fd2da8617
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: rapid-tanker-api-gateway
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rapid-tanker-api-gateway
+    spec:
+      containers:
+        - image: manojmdocker14/rapid-tanker-api-gateway:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          name: rapid-tanker-api-gateway
+          env:
+            - name: HOST_NAME
+              value: rapid-tanker-config-server
+            - name: NAMING_SERVER
+              value: rapid-tanker-naming-server
+          resources:
+            limits:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 2Gi
+          securityContext:
+            capabilities:
+              drop:
+                - NET_RAW
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: kubernetes.io/arch
+          operator: Equal
+          value: amd64
+status:
+  conditions:
+    - lastTransitionTime: "2024-03-21T08:48:52Z"
+      lastUpdateTime: "2024-03-21T08:48:58Z"
+      message: ReplicaSet "rapid-tanker-api-gateway-5d488f5cd9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2024-03-21T08:54:27Z"
+      lastUpdateTime: "2024-03-21T08:54:27Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+  observedGeneration: 1
+  replicas: 1
+  unavailableReplicas: 1
+  updatedReplicas: 1
