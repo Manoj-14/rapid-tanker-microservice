@@ -1,10 +1,13 @@
 package com.project.userservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -15,19 +18,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String email;
+    @JsonIgnore
     byte[] storedSalt;
+    @JsonIgnore
     byte[] password;
-    private List<AccountType> AccountType;
+    @NotNull
+    private List<AccountType> accountTypes;
 
     public User() {
     }
 
-    public User(UUID id, String email, byte[] storedSalt, byte[] password, List<com.project.userservice.model.AccountType> accountType) {
+    public User(UUID id, String email, byte[] storedSalt, byte[] password, List<com.project.userservice.model.AccountType> accountTypes) {
         this.id = id;
         this.email = email;
         this.storedSalt = storedSalt;
         this.password = password;
-        AccountType = accountType;
+        this.accountTypes = accountTypes;
     }
 
     public UUID getId() {
@@ -62,12 +68,12 @@ public class User {
         this.password = password;
     }
 
-    public List<com.project.userservice.model.AccountType> getAccountType() {
-        return AccountType;
+    public List<com.project.userservice.model.AccountType> getAccountTypes() {
+        return accountTypes;
     }
 
-    public void setAccountType(List<com.project.userservice.model.AccountType> accountType) {
-        AccountType = accountType;
+    public void setAccountTypes(List<com.project.userservice.model.AccountType> accountTypes) {
+        this.accountTypes = accountTypes;
     }
 
     @Override
@@ -77,7 +83,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", storedSalt=" + Arrays.toString(storedSalt) +
                 ", password=" + Arrays.toString(password) +
-                ", AccountType=" + AccountType +
+                ", AccountType=" + accountTypes +
                 '}';
     }
 }

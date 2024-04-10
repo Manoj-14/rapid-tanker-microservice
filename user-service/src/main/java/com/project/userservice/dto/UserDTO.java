@@ -1,24 +1,24 @@
 package com.project.userservice.dto;
 
 import com.project.userservice.model.AccountType;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
 public class UserDTO {
     private UUID id;
     private String email;
     private String password;
-    private List<AccountType> AccountType;
+    private AccountType accountType;
 
     public UserDTO() {
     }
 
-    public UserDTO(UUID id, String email, String password, List<com.project.userservice.model.AccountType> accountType) {
+    public UserDTO(UUID id, String email, String password, AccountType accountType) {
         this.id = id;
         this.email = email;
         this.password = password;
-        AccountType = accountType;
+        this.accountType = accountType;
     }
 
     public UUID getId() {
@@ -45,12 +45,12 @@ public class UserDTO {
         this.password = password;
     }
 
-    public List<com.project.userservice.model.AccountType> getAccountType() {
-        return AccountType;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setAccountType(List<com.project.userservice.model.AccountType> accountType) {
-        AccountType = accountType;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
 

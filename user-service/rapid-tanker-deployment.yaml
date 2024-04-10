@@ -1,0 +1,370 @@
+apiVersion: v1
+items:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"rapid-tanker-api-gateway"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"rapid-tanker-api-gateway"}]},"modified":true}'
+        autopilot.gke.io/warden-version: 2.7.52
+        deployment.kubernetes.io/revision: "1"
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"autopilot.gke.io/resource-adjustment":"{\"input\":{\"containers\":[{\"name\":\"rapid-tanker-api-gateway\"}]},\"output\":{\"containers\":[{\"limits\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"name\":\"rapid-tanker-api-gateway\"}]},\"modified\":true}","autopilot.gke.io/warden-version":"2.7.52","deployment.kubernetes.io/revision":"1"},"creationTimestamp":"2024-03-21T08:48:52Z","generation":1,"labels":{"app":"rapid-tanker-api-gateway"},"name":"rapid-tanker-api-gateway","namespace":"default","resourceVersion":"111300","uid":"d61ec9c2-e376-410c-91fe-7e7fd2da8617"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"rapid-tanker-api-gateway"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rapid-tanker-api-gateway"}},"spec":{"containers":[{"env":[{"name":"HOST_NAME","value":"rapid-tanker-config-server"},{"name":"NAMING_SERVER","value":"rapid-tanker-naming-server"}],"image":"manojmdocker14/rapid-tanker-api-gateway:0.0.1-SNAPSHOT","imagePullPolicy":"IfNotPresent","name":"rapid-tanker-api-gateway","resources":{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"}},"securityContext":{"capabilities":{"drop":["NET_RAW"]}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{"seccompProfile":{"type":"RuntimeDefault"}},"terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoSchedule","key":"kubernetes.io/arch","operator":"Equal","value":"amd64"}]}}},"status":{"conditions":[{"lastTransitionTime":"2024-03-21T08:48:52Z","lastUpdateTime":"2024-03-21T08:48:58Z","message":"ReplicaSet \"rapid-tanker-api-gateway-5d488f5cd9\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"lastTransitionTime":"2024-03-21T08:54:27Z","lastUpdateTime":"2024-03-21T08:54:27Z","message":"Deployment does not have minimum availability.","reason":"MinimumReplicasUnavailable","status":"False","type":"Available"}],"observedGeneration":1,"replicas":1,"unavailableReplicas":1,"updatedReplicas":1}}
+      creationTimestamp: "2024-03-21T09:03:00Z"
+      generation: 1
+      labels:
+        app: rapid-tanker-api-gateway
+      name: rapid-tanker-api-gateway
+      namespace: default
+      resourceVersion: "117304"
+      uid: 1cdc955b-0b8b-4ece-8007-a2b2fb3e2e30
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: rapid-tanker-api-gateway
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: rapid-tanker-api-gateway
+        spec:
+          containers:
+            - env:
+                - name: HOST_NAME
+                  value: rapid-tanker-config-server
+                - name: NAMING_SERVER
+                  value: rapid-tanker-naming-server
+              image: manojmdocker14/rapid-tanker-api-gateway:0.0.1-SNAPSHOT
+              imagePullPolicy: IfNotPresent
+              name: rapid-tanker-api-gateway
+              resources:
+                limits:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+                requests:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+              securityContext:
+                capabilities:
+                  drop:
+                    - NET_RAW
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          terminationGracePeriodSeconds: 30
+          tolerations:
+            - effect: NoSchedule
+              key: kubernetes.io/arch
+              operator: Equal
+              value: amd64
+    status:
+      availableReplicas: 1
+      conditions:
+        - lastTransitionTime: "2024-03-21T09:03:02Z"
+          lastUpdateTime: "2024-03-21T09:03:02Z"
+          message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - lastTransitionTime: "2024-03-21T09:03:00Z"
+          lastUpdateTime: "2024-03-21T09:03:02Z"
+          message: ReplicaSet "rapid-tanker-api-gateway-b6fd5ddc8" has successfully progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 1
+      readyReplicas: 1
+      replicas: 1
+      updatedReplicas: 1
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"rapid-tanker-config-server"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"rapid-tanker-config-server"}]},"modified":true}'
+        autopilot.gke.io/warden-version: 2.7.52
+        deployment.kubernetes.io/revision: "2"
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"autopilot.gke.io/resource-adjustment":"{\"input\":{\"containers\":[{\"name\":\"rapid-tanker-config-server\"}]},\"output\":{\"containers\":[{\"limits\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"name\":\"rapid-tanker-config-server\"}]},\"modified\":true}","autopilot.gke.io/warden-version":"2.7.52","deployment.kubernetes.io/revision":"2"},"creationTimestamp":"2024-03-21T06:29:41Z","generation":2,"labels":{"app":"rapid-tanker-config-server"},"name":"rapid-tanker-config-server","namespace":"default","resourceVersion":"17789","uid":"574f0d56-7b24-4073-a6f7-0dc486c7b0a3"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"rapid-tanker-config-server"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rapid-tanker-config-server"}},"spec":{"containers":[{"env":[{"name":"GIT_USERNAME","value":"Manoj-14"},{"name":"GIT_PASSWORD","value":"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"}],"image":"manojmdocker14/rapid-tanker-config-server:0.0.1-SNAPSHOT","imagePullPolicy":"IfNotPresent","name":"rapid-tanker-config-server","resources":{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"}},"securityContext":{"capabilities":{"drop":["NET_RAW"]}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{"seccompProfile":{"type":"RuntimeDefault"}},"terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoSchedule","key":"kubernetes.io/arch","operator":"Equal","value":"amd64"}]}}},"status":{"availableReplicas":1,"conditions":[{"lastTransitionTime":"2024-03-21T06:31:55Z","lastUpdateTime":"2024-03-21T06:31:55Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2024-03-21T06:29:41Z","lastUpdateTime":"2024-03-21T06:40:13Z","message":"ReplicaSet \"rapid-tanker-config-server-5c989659c\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}],"observedGeneration":2,"readyReplicas":1,"replicas":1,"updatedReplicas":1}}
+      creationTimestamp: "2024-03-21T06:29:41Z"
+      generation: 3
+      labels:
+        app: rapid-tanker-config-server
+      name: rapid-tanker-config-server
+      namespace: default
+      resourceVersion: "110068"
+      uid: 574f0d56-7b24-4073-a6f7-0dc486c7b0a3
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: rapid-tanker-config-server
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: rapid-tanker-config-server
+        spec:
+          containers:
+            - env:
+                - name: GIT_USERNAME
+                  value: Manoj-14
+                - name: GIT_PASSWORD
+                  value: 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
+              image: manojmdocker14/rapid-tanker-config-server:0.0.1-SNAPSHOT
+              imagePullPolicy: IfNotPresent
+              name: rapid-tanker-config-server
+              resources:
+                limits:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+                requests:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+              securityContext:
+                capabilities:
+                  drop:
+                    - NET_RAW
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          terminationGracePeriodSeconds: 30
+          tolerations:
+            - effect: NoSchedule
+              key: kubernetes.io/arch
+              operator: Equal
+              value: amd64
+    status:
+      availableReplicas: 1
+      conditions:
+        - lastTransitionTime: "2024-03-21T06:31:55Z"
+          lastUpdateTime: "2024-03-21T06:31:55Z"
+          message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - lastTransitionTime: "2024-03-21T06:29:41Z"
+          lastUpdateTime: "2024-03-21T06:40:13Z"
+          message:
+            ReplicaSet "rapid-tanker-config-server-5c989659c" has successfully
+            progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 3
+      readyReplicas: 1
+      replicas: 1
+      updatedReplicas: 1
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"rapid-tanker-config-server"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"rapid-tanker-config-server"}]},"modified":true}'
+        autopilot.gke.io/warden-version: 2.7.52
+        deployment.kubernetes.io/revision: "1"
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"autopilot.gke.io/resource-adjustment":"{\"input\":{\"containers\":[{\"name\":\"rapid-tanker-config-server\"}]},\"output\":{\"containers\":[{\"limits\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"2Gi\"},\"name\":\"rapid-tanker-config-server\"}]},\"modified\":true}","autopilot.gke.io/warden-version":"2.7.52","deployment.kubernetes.io/revision":"4"},"creationTimestamp":"2024-03-21T07:54:23Z","generation":5,"labels":{"app":"rapid-tanker-naming-server"},"name":"rapid-tanker-naming-server","namespace":"default","resourceVersion":"1004020","uid":"c7804ad1-59df-4860-9ff0-04200dc0ccbc"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"rapid-tanker-naming-server"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"rapid-tanker-naming-server"}},"spec":{"containers":[{"env":[{"name":"CONFIG_SERVER","value":"rapid-tanker-config-server"}],"image":"manojmdocker14/rapid-tanker-naming-server","imagePullPolicy":"IfNotPresent","name":"rapid-tanker-config-server","resources":{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"}},"securityContext":{"capabilities":{"drop":["NET_RAW"]}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{"seccompProfile":{"type":"RuntimeDefault"}},"terminationGracePeriodSeconds":30,"tolerations":[{"effect":"NoSchedule","key":"kubernetes.io/arch","operator":"Equal","value":"amd64"}]}}},"status":{"availableReplicas":1,"conditions":[{"lastTransitionTime":"2024-03-21T07:59:08Z","lastUpdateTime":"2024-03-21T07:59:08Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2024-03-21T07:54:23Z","lastUpdateTime":"2024-03-22T06:26:09Z","message":"ReplicaSet \"rapid-tanker-naming-server-644675f4cf\" is progressing.","reason":"ReplicaSetUpdated","status":"True","type":"Progressing"}],"observedGeneration":5,"readyReplicas":1,"replicas":2,"unavailableReplicas":1,"updatedReplicas":1}}
+      creationTimestamp: "2024-03-22T06:33:48Z"
+      generation: 1
+      labels:
+        app: rapid-tanker-naming-server
+      name: rapid-tanker-naming-server
+      namespace: default
+      resourceVersion: "1009479"
+      uid: 30d05e62-4193-4049-b4a9-c178c67df1a4
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: rapid-tanker-naming-server
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: rapid-tanker-naming-server
+        spec:
+          containers:
+            - env:
+                - name: CONFIG_SERVER
+                  value: rapid-tanker-config-server
+              image: manojmdocker14/rapid-tanker-naming-server
+              imagePullPolicy: IfNotPresent
+              name: rapid-tanker-config-server
+              resources:
+                limits:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+                requests:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+              securityContext:
+                capabilities:
+                  drop:
+                    - NET_RAW
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          terminationGracePeriodSeconds: 30
+          tolerations:
+            - effect: NoSchedule
+              key: kubernetes.io/arch
+              operator: Equal
+              value: amd64
+    status:
+      availableReplicas: 1
+      conditions:
+        - lastTransitionTime: "2024-03-22T06:33:50Z"
+          lastUpdateTime: "2024-03-22T06:33:50Z"
+          message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - lastTransitionTime: "2024-03-22T06:33:48Z"
+          lastUpdateTime: "2024-03-22T06:33:50Z"
+          message:
+            ReplicaSet "rapid-tanker-naming-server-6bbc698b9c" has successfully
+            progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 1
+      readyReplicas: 1
+      replicas: 1
+      updatedReplicas: 1
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"rapid-tanker-user-service"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"rapid-tanker-user-service"}]},"modified":true}'
+        autopilot.gke.io/warden-version: 2.7.52
+        deployment.kubernetes.io/revision: "1"
+      creationTimestamp: "2024-03-22T06:39:26Z"
+      generation: 1
+      labels:
+        app: user
+      name: user
+      namespace: default
+      resourceVersion: "1013405"
+      uid: 6c746f62-dc19-4791-9a09-effed8ea50c0
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: user
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: user
+        spec:
+          containers:
+            - image: manojmdocker14/rapid-tanker-user-service:0.0.1-SNAPSHOT
+              imagePullPolicy: IfNotPresent
+              name: rapid-tanker-user-service
+              env:
+                - name: HOST_NAME
+                  value: rapid-tanker-config-server
+                - name: NAMING_SERVER
+                  value: rapid-tanker-naming-server
+                - name: DATABASE_URL
+                  value: mysql://avnadmin:AVNS_7KM2EK2K40M9zbZ9nYm@rapid-tanker-macharya914-26e5.a.aivencloud.com:13736/defaultdb?ssl-mode=REQUIRED
+                - name: DATABASE_USERNAME
+                  value: root
+                - name: DATABASE_PASSWORD
+                  value: roots
+              resources:
+                limits:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+                requests:
+                  cpu: 250m
+                  ephemeral-storage: 1Gi
+                  memory: 1Gi
+              securityContext:
+                capabilities:
+                  drop:
+                    - NET_RAW
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          terminationGracePeriodSeconds: 30
+          tolerations:
+            - effect: NoSchedule
+              key: kubernetes.io/arch
+              operator: Equal
+              value: amd64
+    status:
+      conditions:
+        - lastTransitionTime: "2024-03-22T06:39:26Z"
+          lastUpdateTime: "2024-03-22T06:39:26Z"
+          message: Deployment does not have minimum availability.
+          reason: MinimumReplicasUnavailable
+          status: "False"
+          type: Available
+        - lastTransitionTime: "2024-03-22T06:39:26Z"
+          lastUpdateTime: "2024-03-22T06:39:26Z"
+          message: ReplicaSet "user-c977cd794" is progressing.
+          reason: ReplicaSetUpdated
+          status: "True"
+          type: Progressing
+      observedGeneration: 1
+      replicas: 1
+      unavailableReplicas: 1
+      updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

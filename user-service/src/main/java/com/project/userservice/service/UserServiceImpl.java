@@ -1,9 +1,10 @@
 package com.project.userservice.service;
 
-import com.project.userservice.dto.AuthRequest;
-import com.project.userservice.dto.AuthResponse;
 import com.project.userservice.dto.UserDTO;
+import com.project.userservice.dto.UserResponse;
+import com.project.userservice.emitters.Emitters;
 import com.project.userservice.model.User;
+import com.project.userservice.proxy.LocationFeign;
 import com.project.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -14,31 +15,51 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final Emitters emitter;
+    private final LocationFeign locationFeign;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,LocationFeign locationFeign, Emitters emitter) {
         this.userRepository = userRepository;
+        this.locationFeign = locationFeign;
+        this.emitter = emitter;
     }
 
     @Override
     public UserDTO create(UserDTO user) throws DuplicateKeyException, NoSuchAlgorithmException {
+        ModelMapper mapper = new ModelMapper();
         if(userRepository.existsUserByEmail(user.getEmail())){
-            throw new DuplicateKeyException("User Already exists");
-        }
-        else{
+            User dbUser = userRepository.findUserByEmail(user.getEmail());
+            if(dbUser.getAccountTypes().contains(user.getAccountType())){
+                throw  new DuplicateKeyException("User already exists in this type of role");
+            }
+            else{
+                dbUser.getAccountTypes().add(user.getAccountType());
+                userRepository.save(dbUser);
+                user = mapper.map(dbUser,UserDTO.class);
+            }
+        } else if (user.getAccountType() ==null) {
+            throw new NullPointerException("Please provide the account type");
+        } else{
             byte[] salt = createSalt();
             byte[] hashedPassword = createPasswordHash(user.getPassword(),salt);
-            ModelMapper mapper = new ModelMapper();
             User userEntity = mapper.map(user,User.class);
+            userEntity.setAccountTypes(new ArrayList<>());
+            userEntity.getAccountTypes().add(user.getAccountType());
             userEntity.setStoredSalt(salt);
             userEntity.setPassword(hashedPassword);
             userRepository.save(userEntity);
             user = mapper.map(userEntity,UserDTO.class);
-            return user;
+//            emitter.registerUser(user);
         }
+        return user;
     }
 
     @Override
@@ -57,12 +78,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findUser(String email) {
+    public UserResponse findUser(String email) {
         User user = userRepository.findUserByEmail(email);
+        UserResponse userResponse;
         if(user == null){
             throw new RuntimeException("User not found");
         }else{
-            return user;
+            ModelMapper mapper = new ModelMapper();
+            UserResponse response = mapper.map(user,UserResponse.class);
+            response.setAddress(locationFeign.getUserLocation(user.getId()));
+            return response;
         }
     }
 
@@ -92,5 +117,14 @@ public class UserServiceImpl implements UserService{
         var computedHash = md.digest(password.getBytes(StandardCharsets.UTF_8));
         return MessageDigest.isEqual(computedHash, hashedPassword);
     }
+
+    @Override
+    public Map<String,Object> addLocation(UUID userId,String locationId){
+        if(userId != null && userRepository.existsById(userId)){
+            return  locationFeign.setLocation(locationId,userId);
+        }else {
+            throw new RuntimeException("User not found");
+        }
+    };
 
 }

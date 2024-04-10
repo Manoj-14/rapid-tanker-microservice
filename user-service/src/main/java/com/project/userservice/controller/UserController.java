@@ -3,6 +3,7 @@ package com.project.userservice.controller;
 import com.project.userservice.dto.AuthRequest;
 import com.project.userservice.dto.AuthResponse;
 import com.project.userservice.dto.UserDTO;
+import com.project.userservice.dto.UserResponse;
 import com.project.userservice.model.User;
 import com.project.userservice.service.JWTService;
 import com.project.userservice.service.UserService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -45,15 +48,20 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public AuthResponse authenticate(@RequestBody AuthRequest authRequest) throws NoSuchAlgorithmException {
         User user = userService.authenticate(authRequest.getEmail(),authRequest.getPassword());
-        ModelMapper mapper = new ModelMapper();
-        AuthResponse response = mapper.map(user,AuthResponse.class);
-        response.setToken(jwtService.generateToken(user.getEmail()));
+        AuthResponse response = new AuthResponse(jwtService.generateToken(user.getEmail()));
         return response;
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<User> getUser(@PathVariable String email){
-        User user = userService.findUser(email);
-        return new ResponseEntity<User>(user,HttpStatus.OK);
+    public ResponseEntity<UserResponse> getUser(@PathVariable String email){
+        UserResponse response = userService.findUser(email);
+        return new ResponseEntity<UserResponse>(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/location/{userId}")
+    public ResponseEntity<?> addLocation(@PathVariable("userId") UUID userId, @RequestBody Map<String,String> request){
+        String locationId = request.get("locationId");
+        return new ResponseEntity<>(userService.addLocation(userId,locationId),HttpStatus.CREATED);
+//        return new ResponseEntity<>(null,HttpStatus.CREATED);
     }
 }
