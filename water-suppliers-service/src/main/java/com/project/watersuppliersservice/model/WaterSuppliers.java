@@ -2,34 +2,35 @@ package com.project.watersuppliersservice.model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class WaterSuppliers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
+    private UUID id;
+    private UUID userId;
     private String name;
 
     private String email;
 
     private String owner;
 
-    @Embedded
-    private Address Address;
-
     private boolean hasTanker;
+    private boolean accountSetUpCompleted;
 
     public WaterSuppliers() {
     }
 
-    public WaterSuppliers(int id, String name, String email, String owner, com.project.watersuppliersservice.model.Address address, boolean hasTanker) {
+    public WaterSuppliers(UUID id, UUID userId, String name, String email, String owner, boolean hasTanker, boolean accountSetUpCompleted) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
         this.email = email;
         this.owner = owner;
-        Address = address;
         this.hasTanker = hasTanker;
+        this.accountSetUpCompleted = accountSetUpCompleted;
     }
 
     public boolean isHasTanker() {
@@ -47,15 +48,14 @@ public class WaterSuppliers {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", owner='" + owner + '\'' +
-                ", Address=" + Address +
                 '}';
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -83,11 +83,30 @@ public class WaterSuppliers {
         this.owner = owner;
     }
 
-    public com.project.watersuppliersservice.model.Address getAddress() {
-        return Address;
+    public boolean isNull(){
+        return this.name == null || this.email == null ;
     }
 
-    public void setAddress(com.project.watersuppliersservice.model.Address address) {
-        Address = address;
+    public boolean isAccountSetUpCompleted() {
+        return accountSetUpCompleted;
+    }
+
+    public void setAccountSetUpCompleted(boolean accountSetUpCompleted) {
+        this.accountSetUpCompleted = accountSetUpCompleted;
+    }
+
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+    public void copyClass(WaterSuppliers suppliers){
+        this.email = suppliers.email;
+        this.name = suppliers.name;
+        this.hasTanker = suppliers.hasTanker;
+        this.owner = suppliers.owner;
     }
 }

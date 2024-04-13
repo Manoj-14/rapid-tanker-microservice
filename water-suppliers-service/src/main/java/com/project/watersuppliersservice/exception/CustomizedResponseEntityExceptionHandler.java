@@ -35,7 +35,11 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(DuplicateKeyException.class)
     public final ResponseEntity<ErrorDetail> handleDuplicateKeyException(Exception ex, WebRequest request) throws Exception{
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
-
+        return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.NOT_ACCEPTABLE);
+    }
+    @ExceptionHandler(AccountSetupException.class)
+    public final ResponseEntity<ErrorDetail> handleAccountSetUpException(Exception ex, WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.NOT_ACCEPTABLE);
     }
 
