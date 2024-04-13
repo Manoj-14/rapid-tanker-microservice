@@ -20,7 +20,7 @@ public class  LocationController {
         this.locationService = locationService;
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<Location> getLocation(@RequestParam("lon") double longitude, @RequestParam("lat") double latitude){
         Location location = this.locationService.getLocations(longitude,latitude);
         return new ResponseEntity<Location>(location, HttpStatus.CREATED);
