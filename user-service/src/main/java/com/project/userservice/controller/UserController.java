@@ -4,6 +4,7 @@ import com.project.userservice.dto.AuthRequest;
 import com.project.userservice.dto.AuthResponse;
 import com.project.userservice.dto.UserDTO;
 import com.project.userservice.dto.UserResponse;
+import com.project.userservice.model.AccountType;
 import com.project.userservice.model.User;
 import com.project.userservice.service.JWTService;
 import com.project.userservice.service.UserService;
@@ -63,5 +64,11 @@ public class UserController {
         String locationId = request.get("locationId");
         return new ResponseEntity<>(userService.addLocation(userId,locationId),HttpStatus.CREATED);
 //        return new ResponseEntity<>(null,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get/{email}")
+    public ResponseEntity<?> findUser(@PathVariable("email") String email, @RequestParam("type") String type){
+        Map<String,Object> response = userService.findUserWithAccountType(email,type);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

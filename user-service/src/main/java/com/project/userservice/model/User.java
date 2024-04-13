@@ -75,7 +75,6 @@ public class User {
     public void setAccountTypes(List<com.project.userservice.model.AccountType> accountTypes) {
         this.accountTypes = accountTypes;
     }
-
     @Override
     public String toString() {
         return "User{" +
