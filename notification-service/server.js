@@ -2,14 +2,16 @@ const client = require("cloud-config-client");
 const express = require("express");
 const {
   sendSupplierRegisterSuccessfullMsg,
-} = require("./middleware/middleware");
-const { CustomKafka } = require("./config/Kafka");
-const { registerWithEureka } = require("./config/eureka-client");
+  sendUserRegisterSuccessfullMsg,
+} = require("./middleware/middleware.js");
+const { CustomKafka } = require("./config/Kafka.js");
+const { registerWithEureka } = require("./config/eureka-client.js");
 const app = express();
-
+require("dotenv").config();
 client
   .load({
     application: "notification-service",
+    endpoint: `http://${process.env.HOST_NAME}:8888`,
   })
   .then((config) => {
     process.env.port = config.get("server.port");
@@ -33,6 +35,12 @@ client
       "notification",
       "notification_group",
       sendSupplierRegisterSuccessfullMsg
+    );
+
+    kafka.subscribe(
+      "user-service",
+      "user_notification_group",
+      sendUserRegisterSuccessfullMsg
     );
 
     app.listen((port = process.env.port || 8080), () => {

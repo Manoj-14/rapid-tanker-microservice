@@ -1,0 +1,11 @@
+FROM node
+EXPOSE 8094
+WORKDIR /rapid-tanker-notification-service
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+CMD [ "node", "server.js" ]

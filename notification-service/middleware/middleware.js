@@ -6,4 +6,10 @@ const sendSupplierRegisterSuccessfullMsg = (data) => {
   mail.sendMail(email, name);
 };
 
-module.exports = { sendSupplierRegisterSuccessfullMsg };
+const sendUserRegisterSuccessfullMsg = (data) => {
+  const { email } = data.user;
+  const mail = new NodeMail();
+  mail.sendMail(email, "User registered successful");
+};
+
+module.exports = { sendSupplierRegisterSuccessfullMsg, sendUserRegisterSuccessfullMsg };

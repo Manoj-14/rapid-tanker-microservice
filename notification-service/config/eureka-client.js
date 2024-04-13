@@ -5,8 +5,8 @@ const registerWithEureka = (appName, PORT) => {
     // application instance information
     instance: {
       app: appName,
-      hostName: "localhost",
-      ipAddr: "127.0.0.1",
+      hostName: process.env.NAMING_SERVER,
+      ipAddr: process.env.NAMING_SERVER,
       port: {
         $: PORT,
         "@enabled": "true",
@@ -19,7 +19,7 @@ const registerWithEureka = (appName, PORT) => {
     },
     eureka: {
       // eureka server host / port
-      host: "127.0.0.1",
+      host: process.env.NAMING_SERVER,
       port: 8761,
     },
   });
