@@ -60,9 +60,10 @@ public class UserController {
     }
 
     @PostMapping("/location/{userId}")
-    public ResponseEntity<?> addLocation(@PathVariable("userId") UUID userId, @RequestBody Map<String,String> request){
-        String locationId = request.get("locationId");
-        return new ResponseEntity<>(userService.addLocation(userId,locationId),HttpStatus.CREATED);
+    public ResponseEntity<?> addLocation(@PathVariable("userId") UUID userId, @RequestBody Map<String,Object> request){
+        double longitude = (double) request.get("longitude");
+        double latitude = (double) request.get("latitude");
+        return new ResponseEntity<>(userService.addLocation(userId,longitude,latitude),HttpStatus.CREATED);
 //        return new ResponseEntity<>(null,HttpStatus.CREATED);
     }
 

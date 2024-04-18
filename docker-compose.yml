@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   config-server:
@@ -15,9 +15,9 @@ services:
     secrets:
       - GIT_USERNAME
       - GIT_PASSWORD
-  
+
   naming-server:
-    image: manojmdocker14/rapid-tanker-naming-server:0.0.1-SNAPSHOT
+    image: manojmdocker14/rapid-tanker-naming-server
     mem_limit: 700m
     ports:
       - "8761:8761"
@@ -31,8 +31,8 @@ services:
     links:
       - config-server
     environment:
-      - HOST_NAME=config-server
-  
+      - CONFIG_SERVER=config-server
+
   api-gateway:
     image: manojmdocker14/rapid-tanker-api-gateway:0.0.1-SNAPSHOT
     mem_limit: 700m
@@ -51,6 +51,86 @@ services:
     environment:
       - HOST_NAME=config-server
       - NAMING_SERVER=naming-server
+  user-service:
+    image: manojmdocker14/rapid-tanker-user-service:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    networks:
+      - rapid-tanker-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      naming-server:
+        condition: service_healthy
+    links:
+      - config-server
+      - naming-server
+    env_file:
+      - ./docker.env
+    environment:
+      - HOST_NAME=config-server
+      - NAMING_SERVER=naming-server
+      - LOCATION_SERVICE_URI=location-service
+      - WATER_SUPPLIER_SERVICE_URI=water-supplier-service
+  water-supplier-service:
+    image: manojmdocker14/rapid-tanker-water-supplier-service:0.0.1-SNAPSHOT
+    ports:
+      - "8083:8083"
+    networks:
+      - rapid-tanker-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      naming-server:
+        condition: service_healthy
+    links:
+      - config-server
+      - naming-server
+    env_file:
+      - ./docker.env
+    environment:
+      - HOST_NAME=config-server
+      - NAMING_SERVER=naming-server
+      - USER_SERVICE_URI=user-service
+  location-service:
+    image: manojmdocker14/rapid-tanker-location-service:0.0.1-SNAPSHOT
+    ports:
+      - "8091:8091"
+    networks:
+      - rapid-tanker-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      naming-server:
+        condition: service_healthy
+    links:
+      - config-server
+      - naming-server
+    env_file:
+      ./docker.env
+    environment:
+      - HOST_NAME=config-server
+      - NAMING_SERVER=naming-server
+
+  notification-service:
+    image: manojmdocker14/rapid-tanker-notification-service
+    ports:
+      - "8094:8094"
+    networks:
+      - rapid-tanker-network
+    depends_on:
+      config-server:
+        condition: service_healthy
+      naming-server:
+        condition: service_healthy
+    links:
+      - config-server
+      - naming-server
+    env_file:
+      ./docker.env
+    environment:
+      - HOST_NAME=config-server
+      - NAMING_SERVER=naming-server  
 
 networks:
   rapid-tanker-network:

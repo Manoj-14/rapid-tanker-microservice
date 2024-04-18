@@ -134,9 +134,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Map<String,Object> addLocation(UUID userId,String locationId){
+    public Map<String,Object> addLocation(UUID userId,double longitude,double latitude){
         if(userId != null && userRepository.existsById(userId)){
-            return  locationFeign.setLocation(locationId,userId);
+            return  locationFeign.setLocation(userId,longitude,latitude);
         }else {
             throw new RuntimeException("User not found");
         }
@@ -157,6 +157,7 @@ public class UserServiceImpl implements UserService{
             switch(accountType){
                 case USER :
                     System.out.println("User");
+                    response.put("user",findUser(email));
                     break;
                 case TANKER :
                     System.out.println("Tanker");

@@ -20,15 +20,15 @@ public class  LocationController {
         this.locationService = locationService;
     }
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<Location> getLocation(@RequestParam("lon") double longitude, @RequestParam("lat") double latitude){
         Location location = this.locationService.getLocations(longitude,latitude);
-        return new ResponseEntity<Location>(location, HttpStatus.CREATED);
+        return new ResponseEntity<Location>(location, HttpStatus.OK);
     }
 
-    @PostMapping("/{locationId}/{userId}")
-    public ResponseEntity<Location> setLocation(@PathVariable("locationId") String locationId,@PathVariable("userId") UUID userId ){
-        Location location = this.locationService.setLocation(locationId,userId);
+    @PostMapping("/add/{userId}")
+    public ResponseEntity<Location> setLocation(@PathVariable("userId") UUID userId,@RequestParam("lon") double longitude, @RequestParam("lat") double latitude){
+        Location location = this.locationService.setLocation(userId,latitude,longitude);
         return new ResponseEntity<Location>(location, HttpStatus.CREATED);
     }
 

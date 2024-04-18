@@ -19,6 +19,6 @@ public interface UserService {
     UserDTO create(UserDTO user) throws DuplicateKeyException, NoSuchAlgorithmException;
     User authenticate(String email,String password) throws DuplicateKeyException, NoSuchAlgorithmException;
     UserResponse findUser(String email);
-    Map<String,Object> addLocation(UUID userId, String locationId);
+    Map<String,Object> addLocation(UUID userId,double longitude,double latitude);
     Map<String,Object> findUserWithAccountType(String email, String type) throws UserNotFoundException;
 }

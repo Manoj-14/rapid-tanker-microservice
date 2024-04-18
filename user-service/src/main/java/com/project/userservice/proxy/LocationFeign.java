@@ -14,8 +14,8 @@ import java.util.UUID;
 
 @FeignClient(name = "location-service" , url = "${LOCATION_SERVICE_URI:http://localhost}:8091")
 public interface LocationFeign {
-    @PostMapping("/api/location/{locationId}/{userId}")
-    Map<String,Object> setLocation(@PathVariable("locationId") String locationId,@PathVariable("userId") UUID userId);
+    @PostMapping("/api/location/add/{userId}")
+    Map<String,Object> setLocation(@PathVariable("userId") UUID userId,@RequestParam("lon") double longitude, @RequestParam("lat") double latitude);
 
     @GetMapping("/api/location/{userId}")
     List<Object> getUserLocation(@PathVariable("userId") UUID userId);

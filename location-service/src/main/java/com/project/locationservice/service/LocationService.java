@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface LocationService {
     @Transactional
-    Location setLocation(String locationId,UUID userId);
+    Location setLocation(UUID userId,double latitude,double longitude);
     Location getLocations(double longitude, double latitude) throws LocationNotFoundException;
     List<Location> getLocationByUserId(UUID userId);
 }

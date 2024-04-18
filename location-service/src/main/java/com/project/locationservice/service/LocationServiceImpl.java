@@ -45,8 +45,8 @@ public class LocationServiceImpl implements LocationService {
         Map<String,Object> rawLocation = (Map<String, Object>) features.get(0);
         Location location = mapper.map(rawLocation.get("properties"),Location.class);
         Address address = mapper.map(rawLocation.get("properties"),Address.class);
-        location.setAddress(addressRepository.save(address));
-        return locationRepository.save(location);
+        location.setAddress(address);
+        return location;
 //        Map<String,Object> data = this.openRouteService.getLocations(apiKey,longitude,latitude);
 //        ArrayList<Map<String,Object>> features = (ArrayList<Map<String, Object>>) data.get("features");
 //        for (Map<String,Object> feature:features) {
@@ -62,15 +62,10 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location setLocation(String locationId,UUID userId) throws LocationNotFoundException {
-        if(locationRepository.existsById(locationId)){
-            Location location = locationRepository.findById(locationId).stream().findFirst().orElse(null);
-            assert location != null;
-            location.setUserId(userId.toString());
-            locationRepository.save(location);
-            return location;
-        }else {
-            throw new LocationNotFoundException("Location document not found");
-        }
+    public Location setLocation(UUID userId,double latitude,double longitude) {
+        Location location = getLocations( longitude, latitude);
+        Address savedAddress = addressRepository.save(location.getAddress());
+        location.setUserId(userId.toString());
+        return locationRepository.save(location);
     }
 }
