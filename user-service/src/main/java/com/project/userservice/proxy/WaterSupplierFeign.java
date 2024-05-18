@@ -1,5 +1,6 @@
 package com.project.userservice.proxy;
 
+import com.project.userservice.exception.AccountSetupException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,5 +16,5 @@ public interface WaterSupplierFeign {
     @PostMapping("/api/supplier/create")
     Map<String,String> createAccount(@RequestParam("userId") UUID userId);
     @GetMapping("/api/supplier/{userId}")
-    Map<String,Object> getSupplierAccount(@PathVariable("userId") UUID userId);
+    Map<String,Object> getSupplierAccount(@PathVariable("userId") UUID userId) throws AccountSetupException;
 }

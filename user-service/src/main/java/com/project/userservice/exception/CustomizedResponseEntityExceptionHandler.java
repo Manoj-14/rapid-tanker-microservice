@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDate;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -31,10 +32,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.NOT_ACCEPTABLE);
     }
+    @ExceptionHandler(AccountSetupException.class)
+    public final ResponseEntity<ErrorDetail> handleAccountSetupException(Exception ex, WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+
+        return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.FORBIDDEN);
+    }
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleUserNotFoundException(Exception ex, WebRequest request) throws Exception{
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
-        return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.NOT_FOUND);
     }
 
     @Override
