@@ -38,7 +38,7 @@ public class WaterSupplierController {
     @PutMapping("/update/{userId}")
     public ResponseEntity<?> update(@RequestBody WaterSuppliers suppliers,@PathVariable("userId") UUID userId){
         WaterSuppliers savedSupplier = suppliersService.update(suppliers,userId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(savedSupplier,HttpStatus.CREATED);
     }
 
     @GetMapping("/{userId}")

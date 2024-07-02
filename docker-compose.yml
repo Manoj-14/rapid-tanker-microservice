@@ -12,9 +12,9 @@ services:
       - ./docker.env
     healthcheck:
       test: "exit 0"
-    secrets:
-      - GIT_USERNAME
-      - GIT_PASSWORD
+    # secrets:
+    #   - GIT_USERNAME
+    #   - GIT_PASSWORD
 
   naming-server:
     image: manojmdocker14/rapid-tanker-naming-server
@@ -135,8 +135,8 @@ services:
 networks:
   rapid-tanker-network:
 
-secrets:
-  GIT_USERNAME:
-    file: ./gitUsername.txt
-  GIT_PASSWORD:
-    file: ./gitPassword.txt
+# secrets:
+#   GIT_USERNAME:
+#     file: ./gitUsername.txt
+#   GIT_PASSWORD:
+#     file: ./gitPassword.txt

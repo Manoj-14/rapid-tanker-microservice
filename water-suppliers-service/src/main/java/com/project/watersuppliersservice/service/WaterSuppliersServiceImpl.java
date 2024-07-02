@@ -34,8 +34,7 @@ public class WaterSuppliersServiceImpl implements WaterSuppliersService {
         }
         return suppliers;
     }
-    // TODO : complete the update method
-    @Override
+    @Override   
     public WaterSuppliers update(WaterSuppliers suppliers,UUID userId) throws DuplicateKeyException {
         if(waterSuppliersRepository.existsWaterSuppliersByUserId(userId)){
             WaterSuppliers dbSupplier = waterSuppliersRepository.findWaterSuppliersByUserId(userId);
