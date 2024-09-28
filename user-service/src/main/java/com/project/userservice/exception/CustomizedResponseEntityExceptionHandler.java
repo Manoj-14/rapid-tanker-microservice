@@ -50,4 +50,10 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(errorDetail,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(PasswordNotMatchException.class)
+    public final ResponseEntity<ErrorDetail> handlePasswordNotMatchException(Exception ex, WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.UNAUTHORIZED);
+    }
+
 }

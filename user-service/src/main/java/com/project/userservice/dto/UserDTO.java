@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class UserDTO {
     private UUID id;
+    private String name;
     private String email;
     private String password;
     private AccountType accountType;
@@ -14,11 +15,27 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(UUID id, String email, String password, AccountType accountType) {
-        this.id = id;
+    public UserDTO(String name, String email, String password, AccountType accountType) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.accountType = accountType;
+    }
+
+    public UserDTO(UUID id, String name, String email, String password, AccountType accountType) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.accountType = accountType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public UUID getId() {

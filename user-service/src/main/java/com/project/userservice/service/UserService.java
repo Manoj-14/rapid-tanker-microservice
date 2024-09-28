@@ -1,11 +1,8 @@
 package com.project.userservice.service;
 
-import com.project.userservice.dto.AuthRequest;
-import com.project.userservice.dto.AuthResponse;
-import com.project.userservice.dto.UserDTO;
-import com.project.userservice.dto.UserResponse;
+import com.project.userservice.dto.*;
+import com.project.userservice.exception.PasswordNotMatchException;
 import com.project.userservice.exception.UserNotFoundException;
-import com.project.userservice.model.AccountType;
 import com.project.userservice.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DuplicateKeyException;
@@ -21,4 +18,8 @@ public interface UserService {
     UserResponse findUser(String email);
     Map<String,Object> addLocation(UUID userId,double longitude,double latitude);
     Map<String,Object> findUserWithAccountType(String email, String type) throws UserNotFoundException;
+    @Transactional
+    Map<String,Object> makeOrder(UUID userId,String supplierId,int quantity);
+    @Transactional
+    boolean changePassword(AuthRequestPasswordChange requestPasswordChange) throws PasswordNotMatchException;
 }

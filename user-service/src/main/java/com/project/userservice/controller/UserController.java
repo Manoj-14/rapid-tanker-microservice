@@ -1,14 +1,9 @@
 package com.project.userservice.controller;
 
-import com.project.userservice.dto.AuthRequest;
-import com.project.userservice.dto.AuthResponse;
-import com.project.userservice.dto.UserDTO;
-import com.project.userservice.dto.UserResponse;
-import com.project.userservice.model.AccountType;
+import com.project.userservice.dto.*;
 import com.project.userservice.model.User;
 import com.project.userservice.service.JWTService;
 import com.project.userservice.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -71,5 +66,17 @@ public class UserController {
     public ResponseEntity<?> findUser(@PathVariable("email") String email, @RequestParam("type") String type){
         Map<String,Object> response = userService.findUserWithAccountType(email,type);
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PostMapping("/{userId}/order")
+    public ResponseEntity<?> orderWater(@PathVariable("userId") String userId, @RequestBody Map<String,Object> request){
+        String supplierId = (String) request.get("supplierId");
+        int quantity = (Integer) request.get("quantity");
+        return ResponseEntity.ok(userService.makeOrder(UUID.randomUUID(),supplierId,quantity));
+    }
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody AuthRequestPasswordChange passwordChangeRequest) throws NoSuchAlgorithmException {
+        System.out.println("Password "+passwordChangeRequest);
+       return new ResponseEntity<>(userService.changePassword(passwordChangeRequest),HttpStatus.OK);
     }
 }

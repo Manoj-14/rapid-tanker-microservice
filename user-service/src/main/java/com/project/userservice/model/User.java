@@ -17,6 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    private String name;
     private String email;
     @JsonIgnore
     byte[] storedSalt;
@@ -28,12 +29,21 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String email, byte[] storedSalt, byte[] password, List<com.project.userservice.model.AccountType> accountTypes) {
+    public User(UUID id, String name, String email, byte[] storedSalt, byte[] password, List<AccountType> accountTypes) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.storedSalt = storedSalt;
         this.password = password;
         this.accountTypes = accountTypes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public UUID getId() {
@@ -75,14 +85,16 @@ public class User {
     public void setAccountTypes(List<com.project.userservice.model.AccountType> accountTypes) {
         this.accountTypes = accountTypes;
     }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", storedSalt=" + Arrays.toString(storedSalt) +
                 ", password=" + Arrays.toString(password) +
-                ", AccountType=" + accountTypes +
+                ", accountTypes=" + accountTypes +
                 '}';
     }
 }

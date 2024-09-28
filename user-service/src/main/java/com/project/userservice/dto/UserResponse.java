@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public class UserResponse {
     UUID id;
+    String name;
     String email;
     List<Object> address;
     List<AccountType> accountTypes;
@@ -15,17 +16,27 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(String email, List<Object> address, List<AccountType> accountTypes) {
+    public UserResponse(String name, String email, List<Object> address, List<AccountType> accountTypes) {
+        this.name = name;
         this.email = email;
         this.address = address;
         this.accountTypes = accountTypes;
     }
 
-    public UserResponse(UUID id, String email, List<Object> address, List<AccountType> accountTypes) {
+    public UserResponse(UUID id, String name, String email, List<Object> address, List<AccountType> accountTypes) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.address = address;
         this.accountTypes = accountTypes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

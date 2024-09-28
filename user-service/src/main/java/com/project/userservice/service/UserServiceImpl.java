@@ -1,12 +1,15 @@
 package com.project.userservice.service;
 
+import com.project.userservice.dto.AuthRequestPasswordChange;
 import com.project.userservice.dto.UserDTO;
 import com.project.userservice.dto.UserResponse;
 import com.project.userservice.emitters.Emitters;
+import com.project.userservice.exception.PasswordNotMatchException;
 import com.project.userservice.exception.UserNotFoundException;
 import com.project.userservice.model.AccountType;
 import com.project.userservice.model.User;
 import com.project.userservice.proxy.LocationFeign;
+import com.project.userservice.proxy.OrderFeign;
 import com.project.userservice.proxy.WaterSupplierFeign;
 import com.project.userservice.repository.UserRepository;
 import org.bouncycastle.oer.Switch;
@@ -30,13 +33,15 @@ public class UserServiceImpl implements UserService{
     private final Emitters emitter;
     private final LocationFeign locationFeign;
     private final WaterSupplierFeign supplierFeign;
+    private final OrderFeign orderFeign;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,LocationFeign locationFeign, Emitters emitter,WaterSupplierFeign supplierFeign) {
+    public UserServiceImpl(UserRepository userRepository, LocationFeign locationFeign, Emitters emitter, WaterSupplierFeign supplierFeign, OrderFeign orderFeign) {
         this.userRepository = userRepository;
         this.locationFeign = locationFeign;
         this.emitter = emitter;
         this.supplierFeign = supplierFeign;
+        this.orderFeign = orderFeign;
     }
 
     @Override
@@ -173,6 +178,31 @@ public class UserServiceImpl implements UserService{
             return response;
         }else{
             throw new UserNotFoundException("User not Found");
+        }
+    }
+
+    @Override
+    public Map<String, Object> makeOrder(UUID userId, String supplierId, int quantity) {
+        Map<String,Object> request = new HashMap<>();
+        request.put("userId",userId);
+        request.put("waterSupplierId",supplierId);
+        request.put("quantity",quantity);
+        return orderFeign.createOrder(request);
+    }
+
+    @Override
+    public boolean changePassword(AuthRequestPasswordChange requestPasswordChange) throws PasswordNotMatchException {
+        User user = null;
+        try {
+            user = authenticate(requestPasswordChange.getEmail(),requestPasswordChange.getPassword());
+            byte[] salt = createSalt();
+            byte[]  hashedNewPassword = createPasswordHash(requestPasswordChange.getNewPassword(), salt);
+            user.setStoredSalt(salt);
+            user.setPassword(hashedNewPassword);
+            userRepository.save(user);
+            return true;
+        } catch (NoSuchAlgorithmException e) {
+            throw new PasswordNotMatchException("Current password not matching");
         }
     }
 
