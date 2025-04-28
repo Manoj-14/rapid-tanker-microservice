@@ -1,8 +1,6 @@
-package com.project.userservice.emitters;
+package com.project.orderservice.emitters;
 
-import com.project.userservice.dto.UserDTO;
-import com.project.userservice.model.User;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import com.project.orderservice.modal.WaterOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -20,9 +18,9 @@ public class Emitters {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void registerUser(UserDTO user){
+    public void sendForPayment(WaterOrder waterOrder){
         Map<String,Object > data = new HashMap<>();
-        data.put("user",user);
-        kafkaTemplate.send("user-service","user",data);
+        data.put("order", waterOrder);
+        kafkaTemplate.send("order","PAYMENT_REQUEST",data);
     }
 }

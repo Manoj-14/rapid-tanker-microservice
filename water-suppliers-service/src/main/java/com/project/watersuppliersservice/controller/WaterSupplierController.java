@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/supplier")
 public class WaterSupplierController {
@@ -43,6 +43,7 @@ public class WaterSupplierController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<WaterSuppliers> getSupplierAccount(@PathVariable("userId") UUID userId){
+        System.out.println(userId);
         WaterSuppliers suppliers = suppliersService.findByUserId(userId);
         return new ResponseEntity<>(suppliers,HttpStatus.OK);
     }

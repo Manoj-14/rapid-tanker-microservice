@@ -71,7 +71,9 @@ services:
       - HOST_NAME=config-server
       - NAMING_SERVER=naming-server
       - LOCATION_SERVICE_URI=location-service
-      - WATER_SUPPLIER_SERVICE_URI=water-supplier-service
+      - WATER_SUPPLIER_SERVICE_URI=water-supplier-servic
+    profiles:
+      - donotstart
   water-supplier-service:
     image: manojmdocker14/rapid-tanker-water-supplier-service:0.0.1-SNAPSHOT
     ports:
@@ -92,6 +94,7 @@ services:
       - HOST_NAME=config-server
       - NAMING_SERVER=naming-server
       - USER_SERVICE_URI=user-service
+
   location-service:
     image: manojmdocker14/rapid-tanker-location-service:0.0.1-SNAPSHOT
     ports:
@@ -106,8 +109,7 @@ services:
     links:
       - config-server
       - naming-server
-    env_file:
-      ./docker.env
+    env_file: ./docker.env
     environment:
       - HOST_NAME=config-server
       - NAMING_SERVER=naming-server
@@ -126,17 +128,18 @@ services:
     links:
       - config-server
       - naming-server
-    env_file:
-      ./docker.env
+    env_file: ./docker.env
     environment:
       - HOST_NAME=config-server
-      - NAMING_SERVER=naming-server  
+      - NAMING_SERVER=naming-server
+    profiles:
+      - donotstart
 
 networks:
   rapid-tanker-network:
 
-# secrets:
-#   GIT_USERNAME:
-#     file: ./gitUsername.txt
-#   GIT_PASSWORD:
-#     file: ./gitPassword.txt
+    # secrets:
+    #   GIT_USERNAME:
+    #     file: ./gitUsername.txt
+    #   GIT_PASSWORD:
+    #     file: ./gitPassword.txt
